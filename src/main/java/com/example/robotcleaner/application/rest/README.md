@@ -1,0 +1,1 @@
+* Aqui por ejemplo se podria definir para hacer llamadas REST
