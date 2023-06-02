@@ -1,5 +1,6 @@
 package com.example.robotcleaner.application.cli;
 
+import com.example.robotcleaner.application.rest.mapper.RobotMapper;
 import com.example.robotcleaner.domain.model.Robot;
 import com.example.robotcleaner.domain.model.RobotInstruction;
 import com.example.robotcleaner.domain.ports.inbounds.CreateWorkspaceUseCase;

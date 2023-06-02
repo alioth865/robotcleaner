@@ -6,26 +6,31 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class MakeRobotInstructionAdapter implements MakeRobotInstructionPort {
+    // TODO: 1/6/23 Igual lo correcto de esto sería moverlo a la {@link DeployRobotService}
     @Override
     public Robot makeInstruction(Workspace workspace, RobotInstruction robotInstruction) {
         var robot = robotInstruction.getRobot();
-        workspace.updateGrid(robot);
-        for (Instruction instruction : robotInstruction.getInstructions()) {
-            switch (instruction) {
-                case L -> {
-                    var orientation = turnLeft(robot.getOrientation());
-                    robot.setOrientation(orientation);
-                    workspace.updateGrid(robot);
-                }
-                case R -> {
-                    var orientation = turnRight(robot.getOrientation());
-                    robot.setOrientation(orientation);
-                    workspace.updateGrid(robot);
-                }
-                case M -> robot = moveForward(workspace, robot);
-            }
 
+        if (robotInstruction.getInstructions() != null) {
+            for (Instruction instruction : robotInstruction.getInstructions()) {
+
+                switch (instruction) {
+                    case L -> {
+                        var orientation = turnLeft(robot.getOrientation());
+                        robot.setOrientation(orientation);
+                        workspace.updateGrid(robot);
+                    }
+                    case R -> {
+                        var orientation = turnRight(robot.getOrientation());
+                        robot.setOrientation(orientation);
+                        workspace.updateGrid(robot);
+                    }
+                    case M -> robot = moveForward(workspace, robot);
+                }
+
+            }
         }
+
         return robot;
     }
 

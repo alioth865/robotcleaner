@@ -8,6 +8,7 @@ import com.example.robotcleaner.domain.model.RobotInstruction;
 import com.example.robotcleaner.domain.model.Workspace;
 import com.example.robotcleaner.domain.ports.inbounds.DeployRobotUseCase;
 import com.example.robotcleaner.domain.ports.outbound.MakeRobotInstructionPort;
+import com.example.robotcleaner.domain.ports.outbound.WorkspacePersistencePort;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +17,11 @@ public class DeployRobotService implements DeployRobotUseCase {
 
     private final MakeRobotInstructionPort makeRobotInstructionPort;
 
-    public DeployRobotService(MakeRobotInstructionPort makeRobotInstructionPort) {
+    private final WorkspacePersistencePort repository;
+
+    public DeployRobotService(MakeRobotInstructionPort makeRobotInstructionPort, WorkspacePersistencePort repository) {
         this.makeRobotInstructionPort = makeRobotInstructionPort;
+        this.repository = repository;
     }
 
     @Override
@@ -27,6 +31,7 @@ public class DeployRobotService implements DeployRobotUseCase {
         for (var robotInstruction : robotInstructions) {
             statusRobot.add(makeRobotInstructionPort.makeInstruction(workspace, robotInstruction));
         }
+        repository.save(workspace);
         return statusRobot;
     }
 }
